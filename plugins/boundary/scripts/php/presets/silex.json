@@ -1,0 +1,34 @@
+{
+  "http_routes": {
+    "attributes": [],
+    "silex_route_methods": ["get", "post", "put", "patch", "delete", "options", "match"],
+    "silex_app_variables": ["app", "this"],
+    "controller_suffixes": ["Controller", "Provider"]
+  },
+  "workers": {
+    "consumer_interfaces": [
+      "OldSound\\RabbitMqBundle\\RabbitMq\\ConsumerInterface"
+    ],
+    "consumer_suffixes": ["Consumer", "Handler", "Worker"]
+  },
+  "cli": {
+    "command_base_classes": [
+      "Symfony\\Component\\Console\\Command\\Command",
+      "Knp\\Command\\Command"
+    ]
+  },
+  "cron": {
+    "config_files": ["crontab", "cron.txt"],
+    "config_dirs": ["config/", "app/config/"]
+  },
+  "database": {
+    "entity_attributes": [
+      "ORM\\Entity",
+      "ORM\\Table",
+      "ORM\\Column",
+      "Doctrine\\ORM\\Mapping\\Entity",
+      "Doctrine\\ORM\\Mapping\\Table",
+      "Doctrine\\ORM\\Mapping\\Column"
+    ]
+  }
+}

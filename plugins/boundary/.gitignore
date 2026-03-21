@@ -1,0 +1,3 @@
+scripts/php/vendor/
+scripts/php/composer.lock
+.claude/*.local.md

@@ -1,0 +1,170 @@
+{
+  "name": "personal",
+  "owner": {
+    "name": "Nicolas Gomes de Oliveira",
+    "email": "ngdo27@gmail.com"
+  },
+  "metadata": {
+    "description": "Personal Marketplace.",
+    "version": "0.1.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "os",
+      "source": "./plugins/os",
+      "description": "Productivity OS — manage ideas, recaps, and todos in an Obsidian vault",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "productivity",
+        "obsidian",
+        "ideas",
+        "recaps",
+        "todos",
+        "vault"
+      ]
+    },
+    {
+      "name": "workflow",
+      "source": "./plugins/workflow",
+      "description": "Development workflow — feature interviews and Linear ticket automation",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "workflow",
+        "linear",
+        "tickets",
+        "interview",
+        "specs"
+      ]
+    },
+    {
+      "name": "spec",
+      "source": "./plugins/spec",
+      "description": "Spec-driven design — 3-step workflow: /spec:start (interview + requirements), /spec:design, /spec:prompt",
+      "version": "0.3.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "spec",
+        "design",
+        "requirements",
+        "prompts"
+      ]
+    },
+    {
+      "name": "cc",
+      "source": "./plugins/cc",
+      "description": "Claude Code linter — reviews plugins, skills, commands, hooks, agents, CLAUDE.md, and rules against best practices",
+      "version": "0.2.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "review",
+        "quality",
+        "best-practices",
+        "validation",
+        "plugin-dev"
+      ]
+    },
+    {
+      "name": "skema",
+      "source": "./plugins/skema",
+      "description": "Generate and validate architecture diagrams using the Skema DSL",
+      "version": "0.4.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "architecture",
+        "diagrams",
+        "c4",
+        "dsl",
+        "skema"
+      ]
+    },
+    {
+      "name": "rchiv",
+      "source": "./plugins/rchiv",
+      "description": "Generates and maintains .rchiv.json files — structured JSON maps of service boundaries (handlers, dependencies, connections) for architecture navigation and impact analysis",
+      "version": "1.4.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "architecture",
+        "service-boundaries",
+        "handlers",
+        "dependencies",
+        "impact-analysis",
+        "rchiv"
+      ]
+    },
+    {
+      "name": "cartographer",
+      "source": "./plugins/cartographer",
+      "description": "Orchestrates the cartographer CLI to discover PHP codebase entrypoints using static analysis and LLM classification",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "php",
+        "static-analysis",
+        "entrypoints",
+        "cartographer",
+        "architecture",
+        "discovery"
+      ]
+    },
+    {
+      "name": "agent-browser",
+      "source": "./plugins/agent-browser",
+      "description": "Browser automation toolkit — navigate, interact with, and extract data from web pages using the agent-browser CLI",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "browser",
+        "automation",
+        "web",
+        "scraping",
+        "agent-browser"
+      ]
+    },
+    {
+      "name": "boundary",
+      "source": "./plugins/boundary",
+      "description": "Reliable PHP codebase boundary mapper — extracts entries (HTTP, workers, CLI, cron) and outputs (HTTP clients, databases, filesystem, messaging) using deterministic PHP AST analysis",
+      "version": "0.2.0",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira",
+        "email": "ngdo27@gmail.com"
+      },
+      "tags": [
+        "php",
+        "architecture",
+        "boundaries",
+        "ast",
+        "extraction",
+        "static-analysis"
+      ]
+    }
+  ]
+}

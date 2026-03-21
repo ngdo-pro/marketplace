@@ -1,0 +1,17 @@
+{
+  "description": "Detects existing specs and injects context before spec skills are invoked",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/detect-specs.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

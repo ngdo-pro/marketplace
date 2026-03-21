@@ -1,0 +1,65 @@
+{
+  "http_routes": {
+    "attributes": [],
+    "controller_suffixes": ["Controller"],
+    "route_methods": ["get", "post", "put", "patch", "delete", "options", "head"]
+  },
+  "workers": {
+    "consumer_interfaces": [],
+    "consumer_suffixes": ["Consumer", "Handler", "Listener", "Subscriber"],
+    "queue_methods": ["consume", "execute", "handle", "__invoke"]
+  },
+  "cli": {
+    "command_base_classes": [],
+    "command_suffixes": ["Command"]
+  },
+  "cron": {
+    "config_files": ["crontab", "cron.txt"],
+    "config_dirs": ["config/"]
+  },
+  "http_clients": {
+    "client_classes": [
+      "GuzzleHttp\\Client",
+      "GuzzleHttp\\ClientInterface",
+      "Symfony\\Contracts\\HttpClient\\HttpClientInterface",
+      "Symfony\\Component\\HttpClient\\HttpClient"
+    ],
+    "request_methods": ["request", "get", "post", "put", "patch", "delete", "head", "options", "send", "sendAsync"],
+    "curl_functions": ["curl_init", "curl_exec", "curl_setopt"],
+    "native_functions": ["file_get_contents"]
+  },
+  "database": {
+    "entity_attributes": [],
+    "dbal_classes": [
+      "Doctrine\\DBAL\\Connection",
+      "PDO"
+    ],
+    "query_builder_classes": [
+      "Doctrine\\DBAL\\Query\\QueryBuilder",
+      "Doctrine\\ORM\\QueryBuilder"
+    ],
+    "read_methods": ["executeQuery", "fetchAll", "fetchOne", "fetchAssociative", "fetchAllAssociative", "fetchColumn", "fetch", "query", "find", "findBy", "findOneBy", "findAll", "createQueryBuilder"],
+    "write_methods": ["executeStatement", "insert", "update", "delete", "exec", "persist", "remove", "flush"]
+  },
+  "filesystem": {
+    "read_functions": ["file_get_contents", "fread", "file", "readfile", "fgets", "fgetcsv", "is_file", "is_dir", "file_exists", "glob", "scandir", "opendir"],
+    "write_functions": ["file_put_contents", "fwrite", "fputs", "fputcsv", "mkdir", "rmdir", "unlink", "rename", "copy", "touch", "chmod"],
+    "filesystem_classes": [
+      "Symfony\\Component\\Filesystem\\Filesystem",
+      "League\\Flysystem\\Filesystem",
+      "League\\Flysystem\\FilesystemInterface"
+    ]
+  },
+  "messaging": {
+    "publisher_classes": [
+      "PhpAmqpLib\\Channel\\AMQPChannel",
+      "OldSound\\RabbitMqBundle\\RabbitMq\\Producer",
+      "OldSound\\RabbitMqBundle\\RabbitMq\\ProducerInterface"
+    ],
+    "publish_methods": ["basic_publish", "publish"],
+    "dispatch_classes": [
+      "Symfony\\Component\\Messenger\\MessageBusInterface"
+    ],
+    "dispatch_methods": ["dispatch"]
+  }
+}

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rchiv dashboard — {SERVICE_NAME}</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #1a1d27;
+    --bg-accent: #232738;
+    --text: #e2e4e9;
+    --text-muted: #8b8fa3;
+    --accent: #6c8aff;
+    --accent-dim: #6c8aff33;
+    --border: #2a2d3a;
+    --green: #4ade80;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --purple: #a78bfa;
+    --orange: #fb923c;
+    --blue: #60a5fa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+  .sidebar-header {
+    padding: 0 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-header h1 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sidebar-header .badge {
+    background: var(--accent-dim);
+    color: var(--accent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  .sidebar nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+  }
+  .sidebar nav a:hover { color: var(--text); background: var(--bg-accent); }
+  .sidebar nav a.active { color: var(--accent); background: var(--accent-dim); border-right: 2px solid var(--accent); }
+  .sidebar nav .count {
+    background: var(--bg-accent);
+    color: var(--text-muted);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+  }
+
+  /* Main */
+  .main { margin-left: 260px; padding: 2rem; }
+
+  /* Sections */
+  section { margin-bottom: 3rem; }
+  section h2 {
+    color: var(--accent);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Stats cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-card .value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Summary / meta */
+  .summary-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .summary-block p { margin: 0.3rem 0; }
+  .summary-block .label { color: var(--text-muted); font-size: 0.85rem; }
+  .tag {
+    display: inline-block;
+    background: var(--bg-accent);
+    color: var(--text-muted);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin: 0.15rem;
+  }
+
+  /* Handler cards */
+  .handler-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 1rem;
+  }
+  .handler-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+  .handler-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .type-badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .type-http { background: #4ade8033; color: var(--green); }
+  .type-event { background: #a78bfa33; color: var(--purple); }
+  .type-cron { background: #fbbf2433; color: var(--yellow); }
+  .type-cli { background: #fb923c33; color: var(--orange); }
+  .method-badge {
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: monospace;
+  }
+  .method-GET { background: #4ade8033; color: var(--green); }
+  .method-POST { background: #60a5fa33; color: var(--blue); }
+  .method-PUT { background: #fbbf2433; color: var(--yellow); }
+  .method-PATCH { background: #fbbf2433; color: var(--yellow); }
+  .method-DELETE { background: #f8717133; color: var(--red); }
+  .handler-id {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .handler-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0.75rem;
+  }
+  .dep-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .dep-pill {
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: monospace;
+  }
+  .dep-call { background: #60a5fa22; color: var(--blue); }
+  .dep-read { background: #4ade8022; color: var(--green); }
+  .dep-write { background: #f8717122; color: var(--red); }
+  .dep-emit { background: #a78bfa22; color: var(--purple); }
+
+  /* Infra tables */
+  .infra-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .infra-table th {
+    background: var(--bg-accent);
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .infra-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .infra-table tr:hover td { background: var(--bg-accent); }
+  .infra-table code {
+    background: var(--bg-accent);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: var(--accent);
+  }
+
+  /* Footer */
+  .dashboard-footer {
+    margin-top: 3rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    display: flex;
+    gap: 2rem;
+  }
+</style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1><span class="badge">.rchiv</span> {SERVICE_NAME}</h1>
+    </div>
+    <nav>
+      <!-- Générer un lien par section non vide -->
+      <a href="#overview">Overview</a>
+      <!-- Si handlers HTTP existent : -->
+      <a href="#http">HTTP <span class="count">{N}</span></a>
+      <!-- Si handlers event existent : -->
+      <a href="#events">Events <span class="count">{N}</span></a>
+      <!-- Si handlers cron existent : -->
+      <a href="#cron">Cron <span class="count">{N}</span></a>
+      <!-- Si handlers cli existent : -->
+      <a href="#cli">CLI <span class="count">{N}</span></a>
+      <!-- Si connections non vide : -->
+      <a href="#connections">Connections <span class="count">{N}</span></a>
+      <!-- Si brokers non vide : -->
+      <a href="#brokers">Brokers <span class="count">{N}</span></a>
+      <!-- Si databases non vide : -->
+      <a href="#databases">Databases <span class="count">{N}</span></a>
+      <!-- Si libraries non vide : -->
+      <a href="#libraries">Libraries <span class="count">{N}</span></a>
+    </nav>
+  </div>
+
+  <div class="main">
+
+    <!-- SECTION: Overview -->
+    <section id="overview">
+      <h2>Overview</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="value">{TOTAL_HANDLERS}</div>
+          <div class="label">Handlers</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{HTTP_COUNT}</div>
+          <div class="label">HTTP</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{EVENT_COUNT}</div>
+          <div class="label">Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{CRON_COUNT}</div>
+          <div class="label">Cron</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{CONNECTIONS_COUNT}</div>
+          <div class="label">Connections</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">{DATABASES_COUNT}</div>
+          <div class="label">Databases</div>
+        </div>
+      </div>
+      <!-- Summary block avec semantic -->
+      <div class="summary-block">
+        <p class="label">Purpose</p>
+        <p>{SEMANTIC_PURPOSE}</p>
+      </div>
+      <div class="summary-block">
+        <p class="label">Summary</p>
+        <p>{SEMANTIC_SUMMARY}</p>
+      </div>
+      <div class="summary-block">
+        <p class="label">Domain</p>
+        <p>{SEMANTIC_DOMAIN}</p>
+      </div>
+      <div class="summary-block">
+        <p class="label">Tags</p>
+        <p>
+          <!-- Pour chaque tag : -->
+          <span class="tag">{TAG}</span>
+        </p>
+      </div>
+      <div class="summary-block">
+        <p class="label">Meta</p>
+        <p>Repo: {META_REPO} · Commit: {META_COMMIT} · Generated: {META_DATE}</p>
+      </div>
+    </section>
+
+    <!-- SECTION: HTTP handlers (si non vide) -->
+    <section id="http">
+      <h2>HTTP Handlers</h2>
+      <div class="handler-grid">
+        <!-- Pour chaque handler HTTP : -->
+        <div class="handler-card">
+          <div class="handler-card-header">
+            <span class="type-badge type-http">HTTP</span>
+            <span class="method-badge method-{METHOD}">{METHOD}</span>
+            <span class="handler-id">{PATH}</span>
+          </div>
+          <div class="handler-desc">{DESCRIPTION}</div>
+          <div class="dep-pills">
+            <!-- Pour chaque calls[] : -->
+            <span class="dep-pill dep-call">→ {SERVICE} {METHOD} {PATH}</span>
+            <!-- Pour chaque reads[] : -->
+            <span class="dep-pill dep-read">📖 {TABLE}</span>
+            <!-- Pour chaque writes[] : -->
+            <span class="dep-pill dep-write">✏️ {TABLE}</span>
+            <!-- Pour chaque emits[] : -->
+            <span class="dep-pill dep-emit">⚡ {ROUTING_KEY}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Event handlers (si non vide) -->
+    <section id="events">
+      <h2>Event Handlers</h2>
+      <div class="handler-grid">
+        <!-- Pour chaque handler event : -->
+        <div class="handler-card">
+          <div class="handler-card-header">
+            <span class="type-badge type-event">Event</span>
+            <span class="handler-id">{QUEUE}</span>
+          </div>
+          <div class="handler-desc">{DESCRIPTION}</div>
+          <div class="dep-pills">
+            <!-- Mêmes dep-pills que HTTP -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Cron handlers (si non vide) -->
+    <section id="cron">
+      <h2>Cron Handlers</h2>
+      <div class="handler-grid">
+        <!-- Pour chaque handler cron : -->
+        <div class="handler-card">
+          <div class="handler-card-header">
+            <span class="type-badge type-cron">Cron</span>
+            <span class="handler-id">{COMMAND} — {SCHEDULE}</span>
+          </div>
+          <div class="handler-desc">{DESCRIPTION}</div>
+          <div class="dep-pills">
+            <!-- Mêmes dep-pills -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: CLI handlers (si non vide) -->
+    <section id="cli">
+      <h2>CLI Handlers</h2>
+      <div class="handler-grid">
+        <!-- Pour chaque handler cli : -->
+        <div class="handler-card">
+          <div class="handler-card-header">
+            <span class="type-badge type-cli">CLI</span>
+            <span class="handler-id">{COMMAND}</span>
+          </div>
+          <div class="handler-desc">{DESCRIPTION}</div>
+          <div class="dep-pills">
+            <!-- Mêmes dep-pills -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Connections (si non vide) -->
+    <section id="connections">
+      <h2>Connections</h2>
+      <table class="infra-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Registry Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Pour chaque connection : -->
+          <tr>
+            <td><code>{NAME}</code></td>
+            <td>{REGISTRY_NAME ou "—"}</td>
+            <td>{DESCRIPTION}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION: Brokers (si non vide) -->
+    <section id="brokers">
+      <h2>Brokers</h2>
+      <table class="infra-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Pour chaque broker : -->
+          <tr>
+            <td><code>{NAME}</code></td>
+            <td>{TYPE}</td>
+            <td>{DESCRIPTION}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION: Databases (si non vide) -->
+    <section id="databases">
+      <h2>Databases</h2>
+      <table class="infra-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Pour chaque database : -->
+          <tr>
+            <td><code>{NAME}</code></td>
+            <td>{TYPE}</td>
+            <td>{DESCRIPTION}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION: Libraries (si non vide) -->
+    <section id="libraries">
+      <h2>Libraries</h2>
+      <table class="infra-table">
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th>Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Pour chaque library : -->
+          <tr>
+            <td><code>{NAME}</code></td>
+            <td>{VERSION}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="dashboard-footer">
+      <span>Service: {SERVICE_NAME}</span>
+      <span>Date: {DATE}</span>
+      <span>Commit: {META_COMMIT}</span>
+      <span>Version: {RCHIV_VERSION}</span>
+    </div>
+  </div>
+
+  <!-- Scroll spy minimaliste -->
+  <script>
+    (function() {
+      const links = document.querySelectorAll('.sidebar nav a');
+      const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+      function onScroll() {
+        let current = 0;
+        sections.forEach((s, i) => {
+          if (s && s.getBoundingClientRect().top <= 120) current = i;
+        });
+        links.forEach((a, i) => a.classList.toggle('active', i === current));
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

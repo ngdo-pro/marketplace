@@ -1,0 +1,5 @@
+{
+  "name": "spec",
+  "version": "0.3.0",
+  "description": "Spec-driven design — 3-step workflow: /spec:start (interview + requirements), /spec:design, /spec:prompt"
+}

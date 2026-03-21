@@ -1,0 +1,9 @@
+{
+  "name": "rchiv",
+  "description": "Generates and maintains .rchiv.json files — structured JSON maps of service boundaries (handlers, dependencies, connections) for architecture navigation and impact analysis.",
+  "version": "1.4.0",
+  "author": {
+    "name": "Nicolas Gomes de Oliveira",
+    "email": "nicolas.gomes@evaneos.com"
+  }
+}

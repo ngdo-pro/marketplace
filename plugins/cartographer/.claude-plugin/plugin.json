@@ -1,0 +1,9 @@
+{
+  "name": "cartographer",
+  "description": "Orchestrates the cartographer CLI to discover PHP codebase entrypoints using static analysis and LLM classification.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Nicolas Gomes de Oliveira",
+    "email": "nicolas.gomes@evaneos.com"
+  }
+}

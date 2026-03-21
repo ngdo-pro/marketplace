@@ -1,0 +1,36 @@
+{
+  "http_routes": {
+    "attributes": [
+      "Route",
+      "Symfony\\Component\\Routing\\Annotation\\Route",
+      "Symfony\\Component\\Routing\\Attribute\\Route"
+    ],
+    "controller_suffixes": ["Controller"]
+  },
+  "workers": {
+    "consumer_interfaces": [
+      "Symfony\\Component\\Messenger\\Handler\\MessageHandlerInterface",
+      "Symfony\\Component\\Messenger\\Handler\\MessageSubscriberInterface",
+      "OldSound\\RabbitMqBundle\\RabbitMq\\ConsumerInterface"
+    ]
+  },
+  "cli": {
+    "command_base_classes": [
+      "Symfony\\Component\\Console\\Command\\Command"
+    ]
+  },
+  "cron": {
+    "config_files": ["config/packages/scheduler.yaml", "config/packages/scheduler.yml", "crontab"],
+    "config_dirs": ["config/"]
+  },
+  "database": {
+    "entity_attributes": [
+      "ORM\\Entity",
+      "ORM\\Table",
+      "ORM\\Column",
+      "Doctrine\\ORM\\Mapping\\Entity",
+      "Doctrine\\ORM\\Mapping\\Table",
+      "Doctrine\\ORM\\Mapping\\Column"
+    ]
+  }
+}

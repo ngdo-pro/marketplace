@@ -1,0 +1,5 @@
+{
+  "name": "agent-browser",
+  "version": "0.1.0",
+  "description": "Browser automation toolkit using agent-browser CLI — navigate, interact, and extract data from web pages"
+}

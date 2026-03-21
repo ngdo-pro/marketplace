@@ -1,0 +1,61 @@
+{
+  "description": "Hooks rchiv — validation JSON, protection des modifications non committées, synchronisation registry, vérification .rchiv.json",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "rchiv:(update|upgrade|explain|fix)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check-rchiv-exists.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/protect-uncommitted.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/protect-uncommitted.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A file was just written. Tool input: $TOOL_INPUT\n\nIf the file path (file_path) does NOT end with '.rchiv.json', respond ONLY with: HOOK_PASS\n\nIf it DOES end with '.rchiv.json', validate the content against ALL these rules:\n\n1. **Valid JSON**: Must be valid JSON with no syntax errors.\n2. **2-space indentation**: Must use 2-space indentation.\n3. **Reference coherence**:\n   - Every `broker` value in handlers[].bindings[].broker and handlers[].dependencies.emits[].broker MUST exist as a key in the top-level `brokers` object\n   - Every `database` value in handlers[].dependencies.reads[].database and handlers[].dependencies.writes[].database MUST exist as a key in the top-level `databases` object\n   - Every `service` value in handlers[].dependencies.calls[].service MUST exist as a key in the top-level `connections` object\n4. **No secrets**: No values should contain passwords, tokens, API keys, credentials, or URIs with embedded user:pass@ format. Check for patterns: password, token, secret, api_key, apikey, credential, bearer.\n5. **Columns presence**: Every entry in handlers[].dependencies.reads[] and handlers[].dependencies.writes[] MUST have a `columns` array. The array can contain explicit column names or [\"*\"] if columns are unknown, but it must NOT be missing.\n\nIf ALL checks pass, respond: HOOK_PASS\nIf ANY check fails, respond with a clear explanation of ALL failures found, prefixed with: HOOK_FAIL:",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A file was just edited. Tool input: $TOOL_INPUT\n\nIf the file path (file_path) does NOT end with '.rchiv.json', respond ONLY with: HOOK_PASS\n\nIf it DOES end with '.rchiv.json': read the full file using the Read tool, then validate against ALL these rules:\n\n1. **Valid JSON**: Must be valid JSON with no syntax errors.\n2. **2-space indentation**: Must use 2-space indentation.\n3. **Reference coherence**:\n   - Every `broker` value in handlers[].bindings[].broker and handlers[].dependencies.emits[].broker MUST exist as a key in the top-level `brokers` object\n   - Every `database` value in handlers[].dependencies.reads[].database and handlers[].dependencies.writes[].database MUST exist as a key in the top-level `databases` object\n   - Every `service` value in handlers[].dependencies.calls[].service MUST exist as a key in the top-level `connections` object\n4. **No secrets**: No values should contain passwords, tokens, API keys, credentials, or URIs with embedded user:pass@ format. Check for patterns: password, token, secret, api_key, apikey, credential, bearer.\n5. **Columns presence**: Every entry in handlers[].dependencies.reads[] and handlers[].dependencies.writes[] MUST have a `columns` array. The array can contain explicit column names or [\"*\"] if columns are unknown, but it must NOT be missing.\n\nIf ALL checks pass, respond: HOOK_PASS\nIf ANY check fails, respond with a clear explanation of ALL failures found, prefixed with: HOOK_FAIL:",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

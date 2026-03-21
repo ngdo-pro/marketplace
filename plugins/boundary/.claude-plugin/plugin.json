@@ -1,0 +1,9 @@
+{
+  "name": "boundary",
+  "version": "0.2.0",
+  "description": "Reliable PHP codebase boundary mapper — extracts entries (HTTP, workers, CLI, cron) and outputs (HTTP clients, databases, filesystem, messaging) using deterministic PHP AST analysis scripts.",
+  "author": {
+    "name": "ngdo"
+  },
+  "keywords": ["php", "architecture", "boundaries", "ast", "extraction"]
+}

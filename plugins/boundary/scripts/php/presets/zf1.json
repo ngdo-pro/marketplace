@@ -1,0 +1,29 @@
+{
+  "http_routes": {
+    "attributes": [],
+    "zf1_controller_dirs": ["application/controllers/", "controllers/"],
+    "zf1_module_dirs": ["application/modules/"],
+    "controller_suffixes": ["Controller"]
+  },
+  "workers": {
+    "consumer_interfaces": [],
+    "consumer_suffixes": ["Consumer", "Worker", "Handler"]
+  },
+  "cli": {
+    "command_base_classes": [
+      "Zend_Tool_Framework_Provider_Abstract"
+    ],
+    "command_suffixes": ["Command", "Task", "Cli"]
+  },
+  "cron": {
+    "config_files": ["crontab", "cron.txt"],
+    "config_dirs": ["scripts/", "cron/", "bin/"]
+  },
+  "database": {
+    "entity_attributes": [],
+    "zf1_table_classes": [
+      "Zend_Db_Table_Abstract",
+      "Zend_Db_Table"
+    ]
+  }
+}
