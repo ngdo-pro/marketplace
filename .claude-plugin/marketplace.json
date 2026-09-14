@@ -148,14 +148,14 @@
         "agent-browser"
       ]
     },
-    {
+{
       "name": "boundary",
       "source": "./plugins/boundary",
       "description": "Reliable PHP codebase boundary mapper — extracts entries (HTTP, workers, CLI, cron) and outputs (HTTP clients, databases, filesystem, messaging) using deterministic PHP AST analysis",
       "version": "0.2.0",
       "author": {
         "name": "Nicolas Gomes de Oliveira",
-        "email": "ngdo27@gmail.com"
+        "email": "[EMAIL]"
       },
       "tags": [
         "php",
@@ -164,6 +164,28 @@
         "ast",
         "extraction",
         "static-analysis"
+      ]
+    },
+    {
+      "name": "sdd",
+      "source": {
+        "source": "github",
+        "repo": "ngdo-pro/sdd"
+      },
+      "description": "Spec-Driven Development (SDD) Framework — canonical-model pipeline (/sdd:setup, /sdd:vision, /sdd:spec, /sdd:build-spec…), specialized agents, and the `sdd` CLI (prerequisite: `npm i -g @ngdo-pro/sdd`)",
+      "version": "2.0.3",
+      "author": {
+        "name": "Nicolas Gomes de Oliveira"
+      },
+      "homepage": "https://github.com/ngdo-pro/sdd",
+      "license": "MIT",
+      "tags": [
+        "spec-driven-development",
+        "sdd",
+        "cli",
+        "agents",
+        "model-first",
+        "linear"
       ]
     }
   ]
